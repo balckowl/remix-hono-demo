@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { getBlogRoute, getBlogsRoute } from "./routes/blogRoutes";
-import { getBlogHandler, getBlogsHandler } from "./controllers/getBlogs";
+import { createBlogRoute, getBlogRoute, getBlogsRoute } from "./routes/blogRoutes";
+import { createBlogHandler, getBlogHandler, getBlogsHandler } from "./controllers/getBlogs";
 import { swaggerUI } from "@hono/swagger-ui";
 
 export const app = new OpenAPIHono().basePath("/api");
@@ -8,6 +8,7 @@ export const app = new OpenAPIHono().basePath("/api");
 const blogApp = new OpenAPIHono<Env>()
   .openapi(getBlogsRoute, getBlogsHandler)
   .openapi(getBlogRoute, getBlogHandler)
+  .openapi(createBlogRoute, createBlogHandler)
 
 const route = app.route("/blogs", blogApp);
 

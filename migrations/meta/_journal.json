@@ -8,6 +8,13 @@
       "when": 1740849693726,
       "tag": "0000_aspiring_owl",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1740930832882,
+      "tag": "0001_premium_red_wolf",
+      "breakpoints": true
     }
   ]
 }

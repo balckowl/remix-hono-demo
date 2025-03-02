@@ -1,13 +1,17 @@
-import type { LinksFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import { auth as authClient } from "lib/auth";
 
 import "./tailwind.css";
+import Header from "components/header";
+import { Session } from "better-auth";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -22,7 +26,26 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export async function loader({ request, context }: LoaderFunctionArgs) {
+  const { env } = context.cloudflare
+
+  const auth = authClient(
+    env.TURSO_CONNECTION_URL,
+    env.TURSO_AUTH_TOKEN,
+    env.GITHUB_CLIENT_ID,
+    env.GITHUB_CLIENT_SECRET
+  )
+
+  const session = auth.api.getSession({
+    headers: request.headers,
+  });
+
+  return session
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const session = useLoaderData<Session | null>();
+
   return (
     <html lang="en">
       <head>
@@ -32,6 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Header session={session}/>
         {children}
         <ScrollRestoration />
         <Scripts />

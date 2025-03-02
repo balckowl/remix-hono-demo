@@ -23,7 +23,7 @@ export default function Index() {
   return (
     <div>
       {blogs.map((blog) => (
-        <div>
+        <div key={blog.id}>
           <h2>{blog.title}</h2>
         </div>
       ))}
