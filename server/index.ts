@@ -5,7 +5,7 @@ import { swaggerUI } from "@hono/swagger-ui";
 
 export const app = new OpenAPIHono().basePath("/api");
 
-const blogApp = new OpenAPIHono()
+const blogApp = new OpenAPIHono<Env>()
   .openapi(getBlogsRoute, getBlogsHandler)
   .openapi(getBlogRoute, getBlogHandler)
 
